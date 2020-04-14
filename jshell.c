@@ -8,7 +8,7 @@
 void sig_handler(int signum)
 {
 	if (signum == 2)
-		write(STDOUT_FILENO, "\n$1 ", 4);
+		write(STDOUT_FILENO, "\n$ ", 3);
 }
 
 /**
@@ -27,7 +27,7 @@ int main(__attribute__((unused))int argc, char **av)
 	struct stat st;
 	/* write prompt only if it's from standard input */
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "$2 ", 3);
+		write(STDOUT_FILENO, "$ ", 2);
 	signal(SIGINT, sig_handler);
 	while ((character = getline(&line, &size, stdin)) != EOF)
 	{
@@ -54,7 +54,7 @@ int main(__attribute__((unused))int argc, char **av)
 		}
 		else
 			wcount++, wait(&pid);
-		write(STDOUT_FILENO, "$3 ", 3);
+		write(STDOUT_FILENO, "$ ", 2);
 	}
 	free(line), free(pathtokens), free(ttk);
 	return (EXIT_SUCCESS);
