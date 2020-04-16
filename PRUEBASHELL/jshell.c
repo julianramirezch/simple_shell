@@ -20,10 +20,7 @@ void sig_handler(int signum)
 int main(__attribute__((unused))int argc, char **av)
 {
 	stva var[] = {{NULL, NULL, NULL, NULL, NULL, 0, 1}};
-	size_t size = 0; // i = 0; //phcount = 0;
-	ssize_t character;
-	pid_t pid;
-	struct stat st;
+	size_t size = 0; ssize_t character; pid_t pid; struct stat st;
 	char *line = NULL;
 	/* write prompt only if it's from standard input */
 	var->argv = av;
@@ -32,46 +29,57 @@ int main(__attribute__((unused))int argc, char **av)
 	signal(SIGINT, sig_handler);
 	while ((character = getline(&line, &size, stdin)) != EOF)
 	{
-		if (_strcmp(line, "exit\n") == 1)
-		{	
-			free(line);
-			free(var->concat);
+		if (line[0] == '\n' || (line[0] == ' ' && line[1] != ' '))
+			write(STDOUT_FILENO, "4$ ", 3),var->wcount++;
+		else if (line[0] == '\t')
+			write(STDOUT_FILENO, "4$ ", 3),var->wcount++;
+		else if (line[0] == '.' && line[1] == ' ' )
+			write(STDOUT_FILENO, "4$ ", 3),var->wcount++;
+		else if(_strcmp(line,"exit\n") != 0)
+		{
+			if(var->wcount == 1)
+				free(line);
+			else
+				free(line),free(var->pathtok),free(var->path);
 			exit(EXIT_SUCCESS);
 		}
-
-		tokensfun(var,line);// tokens el line
-		_getenv(var, "PATH"); // solo llamamos la funcion;
-		_path(var);
-		concatenate(var);
-		
-//		phcount = count_direc(var->pathtok);
-		 // var->tok es tokens de la estructura
-		pid = fork();
-
-		if (pid == -1)
-			{	perror("Error:");
-				exit(EXIT_FAILURE); }
-		if (pid == 0)
-		{
-//			while (var->pathtok[i])
-//			{
-				//printf("llega antes de la concat\n");
-//				if (i == (phcount - 1))
-//					commmand_not(var->tok[0], arg, wcount, "not found\n");
-				if (var->concat != NULL && stat(var->concat, &st) != -1)					
-					{
-						printf(YELLOW"var->concat es %s\n"RESET, var->concat);
-						execve(var->concat, var->tok, environ);
-					}
-//				i++;
-//			}
-		}
 		else
-			var->wcount++, wait(&pid);
-		write(STDOUT_FILENO, "3$ ", 2);
-		free_st(var);
+		{
+			tokensfun(var,line);// tokens el line
+			pid = fork();
+
+			if (pid == -1)
+				{	perror("Error:");
+					exit(EXIT_FAILURE); }
+			if (pid == 0)
+			{
+				_getenv(var, "PATH");_path(var); concatenate(var);
+				if (var->concat == NULL)
+				{
+					free(var->tok),free(var->pathtok),free(var->path);
+					break;
+				}
+				if (var->concat != NULL && stat(var->concat, &st) != -1)
+						execve(var->concat, var->tok, environ);
+			}
+			else
+				var->wcount++, wait(&pid);
+			write(STDOUT_FILENO, "3$ ", 2), free_st(var);
+		}
 	}
-	//free(var->concat);
 	free(line);
 	return (EXIT_SUCCESS);
+}
+
+/**
+ * free_st - function that free the tokens of path
+ * @pathtokens: tokens to be free
+ * Return: none
+ */
+
+void free_st(stva *var)
+{
+	free(var->tok);
+	free(var->pathtok);
+	free(var->path);
 }

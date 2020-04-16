@@ -13,56 +13,45 @@ void concatenate(stva *var)
 	int x = 0, y = 0, len1, len2;
 	struct stat st;
 	len1 = _strlen(var->tok[0]);
-	printf("len1 es [%i]\n", len1);
 	DIR *dir = NULL;
 
 	dir = opendir(var->tok[0]);
 	if (dir != NULL && access(var->tok[0], X_OK) == 0) /* /bin */
 	{
 		var->status = 126;
-		printf("LLEGUE A LA VALIDACION*******1\n");
 		closedir(dir);
 		commmand_not(var, "Permission denied\n");
 	}
 	else if (dir == NULL && access(var->tok[0], X_OK) == 0) /* /bin/ls */
 	{
-		printf("LLEGUE A LA VALIDACION*******2\n");
 		closedir(dir);
 		var->concat = var->tok[0];
 	}
 	else if (var->tok[0][0] == '.' && var->tok[0][1] == '\0') /* . */
 	{
-		printf("LLEGUE A LA VALIDACION*******3\n");
 		var->concat = var->tok[0];
 	}
 	else if (var->tok[0][0] == '.' || var->tok[0][0] == '/') /* ./ls o /ls */
 	{
-		printf("LLEGUE A LA VALIDACION*******4\n");
 		var->status = 127;
 		commmand_not(var, "not found\n");
 	}
 	else
 	{
-		printf("LLEGUE A LA VALIDACION*******5\n");
 		while (var->pathtok[x]) /* la ruta */
 		{
-		//	printf(RED"var->pathtok[%i] es: %s\n"RESET,x, var->pathtok[x]);
 			len2 = _strlen(var->pathtok[x]); /* len de la ruta */
-			printf("LEN2 VALE: %i\n",len2);
 			var->concat = malloc(sizeof(char) * (len1 + len2 + 2));
 			while (var->pathtok[x][y])
 				var->concat[y] = var->pathtok[x][y], y++; /*pon0e la ruta */
 			var->concat[y] = '/';
-		//	printf(RED"var->concat 1 es: %s\n"RESET,var->concat);
 			y++;
 			len1 = 0;
 			while (var->tok[0][len1])
 				var->concat[y] = var->tok[0][len1], y++, len1++; /* cpone comando */
 			var->concat[y] = '\0';
-		//	printf(RED"var->concat 2 es: %s\n"RESET,var->concat);
 			if (stat(var->concat, &st) == -1) /* concatenada con comandos mierda */
 			{
-				//printf("LA CONCATENADA ES : [[%s]]\n", var->concat);
 				free(var->concat);
 				y = 0;
 				x++;
@@ -74,7 +63,6 @@ void concatenate(stva *var)
 		}
 		if (var->pathtok[x] == NULL)
 		{
-			printf("LLEGUE A LA VALIDACION*******6\n");
 			var->status = 127;
 			var->concat = NULL;
 			commmand_not(var, "not found\n");

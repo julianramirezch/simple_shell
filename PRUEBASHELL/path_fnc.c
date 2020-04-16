@@ -42,14 +42,8 @@ void _path(stva *var)
 		bfc++;
 	}
 	/*retorna el puntero a la lista de palabras*/
-	
+
 	finalargs[bfc] = NULL;
 	var->pathtok = finalargs;
 	free(string);
-//	int x = 0;
-//		while (var->pathtok[x])
-//		{
-//			printf(GREEN"desde _path var->pathtok es %s\n"RESET, var->pathtok[x]);
-//			x++;
-//		}
 }

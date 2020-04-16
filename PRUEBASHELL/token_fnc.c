@@ -16,24 +16,23 @@ void tokensfun(stva *var, char *line)
 	{};
 	string = malloc(sizeof(char) * (len));
 	/*hace una copia del string de entrada*/
-	while (line[copy] != '\n')
+		while (line[copy] != '\n')
 		string[copy] = line[copy], copy++;
-	string[copy] = '\0';
+		string[copy] = '\0';
 	/*crea el token para saber cuantas palabras son*/
-	token = strtok(string, " ");
+	token = strtok(string, " \t");
 	while (token != NULL)
-		token = strtok(NULL, " "), index++;
+		token = strtok(NULL, " \t"), index++;
 	/*asigna tamaño a array de palabras / setea variables a 0*/
 	tokens = malloc(sizeof(char *) * (index + 1)); /* copy = 0; */
-	/*printf ("index es: %i\n", index);*/
 	index = 0;
 	/*reasigna los espacios al string de copia*/
 	/*apunta cada palabra a cada posicion del array de palabras*/
-	token = strtok(line, " \n");
+	token = strtok(line, " \n\t");
 	while (token != NULL)
 	{
 		tokens[index] = token;
-		token = strtok(NULL, " \n"), index++;
+		token = strtok(NULL, " \n\t"), index++;
 	}
 	free(string);
 	tokens[index] = NULL;
