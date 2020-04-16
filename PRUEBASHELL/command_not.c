@@ -48,17 +48,34 @@ void commmand_not(stva *var, char *msg)
 }
 
 /**
- * count_direc - count the directorys inside PATH
- * @direct: folder to count
- * Return: cant of folders found.
+ * _permission- Message and status
+ * @var: Structure
  */
 
-size_t count_direc(char **direct)
+void _permission(stva *var)
 {
-	size_t i = 0;
+	var->status = 126;
+	commmand_not(var, "Permission denied\n");
+}
 
-	while (direct[i])
-		i++;
-	i--;
-	return (i);
+/**
+ * _notfound- Message and status
+ * @var: Structure
+ */
+void _notfound(stva *var)
+{
+	var->status = 127;
+	commmand_not(var, "not found\n");
+}
+
+/**
+ * _notfound2- Message and status
+ * @var: Structure
+ */
+
+void _notfound2(stva *var)
+{
+	var->status = 127;
+	var->concat = NULL;
+	commmand_not(var, "not found\n");
 }

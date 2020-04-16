@@ -2,6 +2,7 @@
 
 /**
  * tokensfun - separate tokens by " ".
+ * @var: Structure
  * @line: line write in command line.
  * Return: 0 is succes.
  */

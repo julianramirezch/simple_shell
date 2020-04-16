@@ -56,6 +56,10 @@ void _path(stva *var);
 void execute(stva *var);
 void commmand_not(stva *var, char *msg);
 void concatenate(stva *var);
+void _permission(stva *var);
+void _notfound(stva *var);
+void _notfound2(stva *var);
+void free_exit(stva *var, char *line);
 /* String functions */
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);

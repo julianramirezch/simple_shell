@@ -8,7 +8,7 @@
 void sig_handler(int signum)
 {
 	if (signum == 2)
-		write(STDOUT_FILENO, "\n1$ ", 3);
+		write(STDOUT_FILENO, "\nevilshell$ ", 12);
 }
 
 /**
@@ -27,21 +27,16 @@ int main(__attribute__((unused))int argc, char **av)
 	struct stat st;
 	/* write prompt only if it's from standard input */
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "2$ ", 2);
+		write(STDOUT_FILENO, "evilshell$ ", 11);
 	signal(SIGINT, sig_handler);
 	while ((character = getline(&line, &size, stdin)) != EOF)
 	{
 		if (line[0] == '\n' || (line[0] == ' ' && line[1] != ' ') || line[0] == '\t')
-			write(STDOUT_FILENO, "4$ ", 3), var->wcount++;
+			write(STDOUT_FILENO, "evilshell$ ", 11), var->wcount++;
 		else if (line[0] == '.' && line[1] == ' ')
-			write(STDOUT_FILENO, "4$ ", 3), var->wcount++;
+			write(STDOUT_FILENO, "evilshell$ ", 11), var->wcount++;
 		else if (_strcmp(line, "exit\n") != 0)
-		{
-			if (var->wcount == 1)
-				free(line);
-			else
-				free(line), free(var->pathtok), free(var->path);
-			exit(EXIT_SUCCESS); }
+			free_exit(var, line);
 		else
 		{
 			tokensfun(var, line), pid = fork();
@@ -59,7 +54,7 @@ int main(__attribute__((unused))int argc, char **av)
 			}
 			else
 				var->wcount++, wait(&pid);
-			write(STDOUT_FILENO, "3$ ", 2), free_st(var);
+			write(STDOUT_FILENO, "evilshell$ ", 11), free_st(var);
 		}
 	}
 	return (free(line), EXIT_SUCCESS);
@@ -88,4 +83,19 @@ void execute(stva *var)
 	_getenv(var, "PATH");
 	_path(var);
 	concatenate(var);
+}
+
+/**
+ * free_exit - functions that free in exit commands
+ * @var: global structure
+ * @line: Pointer to line
+ * Return: none
+ */
+void free_exit(stva *var, char *line)
+{
+	if (var->wcount == 1)
+		free(line);
+	else
+		free(line), free(var->pathtok), free(var->path);
+	exit(var->status);
 }

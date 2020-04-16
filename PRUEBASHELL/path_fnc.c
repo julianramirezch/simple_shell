@@ -2,8 +2,7 @@
 
 /**
  * _path - function that create an array of paths.
- * @glres: getline result
- * @delim: delimiter for separate
+ * @var: global structure
  * Return: array of paths.
  */
 

@@ -15,18 +15,17 @@ void concatenate(stva *var)
 
 	len1 = _strlen(var->tok[0]);
 	dir = opendir(var->tok[0]);
+
 	if (dir != NULL && access(var->tok[0], X_OK) == 0) /* /bin */
-		{ var->status = 126;
-		closedir(dir);
-		commmand_not(var, "Permission denied\n"); }
+		{ _permission(var);
+		closedir(dir); }
 	else if (dir == NULL && access(var->tok[0], X_OK) == 0) /* /bin/ls */
 		{ closedir(dir);
 		var->concat = var->tok[0]; }
 	else if (var->tok[0][0] == '.' && var->tok[0][1] == '\0') /* . */
 		var->concat = var->tok[0];
 	else if (var->tok[0][0] == '.' || var->tok[0][0] == '/') /* ./ls o /ls */
-		{ var->status = 127;
-		commmand_not(var, "not found\n"); }
+		_notfound(var);
 	else
 	{
 		while (var->pathtok[x]) /* la ruta */
@@ -40,7 +39,7 @@ void concatenate(stva *var)
 			while (var->tok[0][len1])
 				var->concat[y] = var->tok[0][len1], y++, len1++; /* cpone comando */
 			var->concat[y] = '\0';
-			if (stat(var->concat, &st) == -1) /* concatenada con comandos mierda */
+			if (stat(var->concat, &st) == -1) /* concatenate*/
 			{ free(var->concat);
 				y = 0;
 				x++; }
@@ -48,9 +47,7 @@ void concatenate(stva *var)
 				break;
 		}
 		if (var->pathtok[x] == NULL)
-		{ var->status = 127;
-			var->concat = NULL;
-			commmand_not(var, "not found\n"); }
+			_notfound2(var);
 	}
 }
 
