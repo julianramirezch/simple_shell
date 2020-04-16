@@ -38,3 +38,22 @@ void tokensfun(stva *var, char *line)
 	tokens[index] = NULL;
 	var->tok = tokens;
 }
+
+/**
+ * free_exit - functions that free in exit commands
+ * @var: global structure
+ * @line: Pointer to line
+ * Return: none
+ */
+void free_exit(stva *var, char *line)
+{
+	if (var->wcount == 1)
+		free(line);
+	else
+	{
+		free(line);
+		//free(var->pathtok);
+		//free(var->path);
+	}
+	exit(var->status);
+}

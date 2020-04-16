@@ -11,7 +11,15 @@ void sig_handler(int signum)
 		write(STDOUT_FILENO, "\nevilshell$ ", 12);
 }
 
-int test(stva *var, char *line, pid_t pid, struct stat st)
+/**
+ * _fork - fork the process to work in child pid 
+ * @var: global structure
+ * @line: buffer that contains the getline buff
+ * @pid: is the pid proccess
+ * @st: structstat
+ */
+
+int _fork(stva *var, char *line, pid_t pid, struct stat st)
 {
 	//(void) pid;
 	(void) st;
@@ -77,7 +85,7 @@ int main(__attribute__((unused))int argc, char **av)
 	{
 		if (_strcmp(line, "exit\n") != 0)
 			free_exit(&var, line);
-		if (test(&var, line, pid, st) == 1)
+		if (_fork(&var, line, pid, st) == 1)
 			break;
 		var.wcount++;
 	}
@@ -109,21 +117,3 @@ void execute(stva *var)
 	concatenate(var);
 }
 
-/**
- * free_exit - functions that free in exit commands
- * @var: global structure
- * @line: Pointer to line
- * Return: none
- */
-void free_exit(stva *var, char *line)
-{
-	if (var->wcount == 1)
-		free(line);
-	else
-	{
-		free(line);
-	 	//free(var->pathtok);
-		//free(var->path);
-	}
-	exit(var->status);
-}
