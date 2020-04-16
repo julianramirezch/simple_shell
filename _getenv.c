@@ -10,7 +10,6 @@
 
 void _getenv(stva *var, char *word)
 {
-	char *copy;
 	char *path_o;
 	unsigned int i = 0, j = 0, k = 0;
 
@@ -18,12 +17,11 @@ void _getenv(stva *var, char *word)
 	{}
 	while (environ[i])
 	{
-		copy = environ[i];
-		while (word[j] == copy[j])
+		while (word[j] == environ[i][j])
 			j++;
 		if (j == k)
 		{
-			path_o = _strdup(copy);
+			path_o = _strdup(environ[i]);
 			var->path = path_o;
 			break;
 		}
@@ -31,3 +29,4 @@ void _getenv(stva *var, char *word)
 			i++, j = 0;
 	}
 }
+

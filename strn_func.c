@@ -13,23 +13,48 @@ void concatenate(stva *var)
 	struct stat st;
 	DIR *dir = NULL;
 
-	len1 = _strlen(var->tok[0]);
 	dir = opendir(var->tok[0]);
+	len1 = _strlen(var->tok[0]);
 
-	if (dir != NULL && access(var->tok[0], X_OK) == 0) /* /bin */
-		{ _permission(var);
-		closedir(dir); }
-	else if (dir == NULL && access(var->tok[0], X_OK) == 0) /* /bin/ls */
-		{ closedir(dir);
-		var->concat = var->tok[0]; }
-	else if (var->tok[0][0] == '.' && var->tok[0][1] == '\0') /* . */
-		var->concat = var->tok[0];
-	else if (var->tok[0][0] == '.' || var->tok[0][0] == '/') /* ./ls o /ls */
-		_notfound(var);
+	if(dir)
+	{
+		closedir(dir);
+		commmand_not(var, "Permission denied\n");
+		var->status= 126;
+		return;
+	}
+
+	if (var->tok[0][0] == '.' || var->tok[0][0] == '/') /* ./ls o /ls */
+	{
+		if (stat(var->tok[0], &st) == 0)
+		{
+			if (access(var->tok[0], X_OK) == 0)
+			{
+				var->concat = var->tok[0];
+				var->status = 0;
+				return;
+			}
+			else
+			{
+				printf("EROORORORO\n");/*SHOW ERROR MESSAGE*/
+				var->status = 126;
+				return;
+			}
+		}
+		else
+		{
+			var->concat = NULL;
+			commmand_not(var, "Not found\n");
+			var->status = 127;
+			return;
+		}
+	}
+		 /* tiene que llegar al execve - doble validacion */
 	else
 	{
 		while (var->pathtok[x]) /* la ruta */
-			{ len2 = _strlen(var->pathtok[x]); /* len de la ruta */
+		{
+			len2 = _strlen(var->pathtok[x]); /* len de la ruta */
 			var->concat = malloc(sizeof(char) * (len1 + len2 + 2));
 			while (var->pathtok[x][y])
 				var->concat[y] = var->pathtok[x][y], y++; /*pon0e la ruta */
@@ -39,15 +64,31 @@ void concatenate(stva *var)
 			while (var->tok[0][len1])
 				var->concat[y] = var->tok[0][len1], y++, len1++; /* cpone comando */
 			var->concat[y] = '\0';
-			if (stat(var->concat, &st) == -1) /* concatenate*/
-			{ free(var->concat);
-				y = 0;
-				x++; }
-			else if (stat(var->concat, &st) == 0) /* concatenada con comandos chimbas */
-				break;
+			if (stat(var->concat, &st) == 0) /* concatenate*/
+			{
+				if (access(var->concat, X_OK) == 0)
+				{
+					var->status = 0;
+					return;
+				}
+				else
+				{
+					commmand_not(var, "Not found\n");
+					var->status = 126;
+					return;
+				}
+			}
+
+			if (var->pathtok[x + 1] == NULL)
+			{
+				var->concat = NULL;
+				commmand_not(var, "Not found\n");
+				var->status = 127;
+			}
+			free(var->concat);
+			y = 0;
+			x++;
 		}
-		if (var->pathtok[x] == NULL)
-			_notfound2(var);
 	}
 }
 
@@ -107,5 +148,6 @@ char *_strdup(char *str)
 	{
 		str2[cont2] = str[cont2];
 	}
+	/* str2[cont2] = '\0'; */
 	return (str2);
 }
