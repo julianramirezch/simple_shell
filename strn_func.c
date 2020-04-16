@@ -13,6 +13,9 @@ char *concatenate(char *string1, char *string2)
 	char *buffer;
 	int i, len2;
 
+	//printf(BLUE"string1 es %s\n"RESET, string1);
+	//printf(BLUE"string2 es %s\n"RESET, string2);
+
 	i = _strlen(string1);
 	len2 = _strlen(string2);
 
@@ -22,8 +25,11 @@ char *concatenate(char *string1, char *string2)
 	i = 0;
 	while (string1[i])
 		buffer[i] = string1[i], i++;
+	//printf(BLUE"buffer es %s\n"RESET, buffer);
 
-	if (string2[0] != '/')
+	// /bin opnedir != NULL y access == 0
+
+	if (string2[0] != '/' && access(string2, X_OK) != 0)
 	{
 		len2 = 0;
 		buffer[i] = '/';
@@ -31,6 +37,7 @@ char *concatenate(char *string1, char *string2)
 		while (string2[len2])
 			buffer[i] = string2[len2], i++, len2++;
 		buffer[i] = '\0';
+		printf("buffer es %s\n", buffer);
 		return (buffer);
 	}
 	free(buffer);

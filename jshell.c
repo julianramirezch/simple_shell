@@ -36,6 +36,7 @@ int main(__attribute__((unused))int argc, char **av)
 			exit(EXIT_SUCCESS); }
 		ttk = tokensfun(line);
 		pid = fork();
+		//printf("%d\n", pid);
 
 		if (pid == -1)
 			{	perror("Error:");
@@ -50,11 +51,13 @@ int main(__attribute__((unused))int argc, char **av)
 				if (stat(concat, &st) == 0)
 					execve(concat, ttk, environ);
 				i++;
+				free(concat);
 			}
 		}
 		else
 			wcount++, wait(&pid);
 		write(STDOUT_FILENO, "$ ", 2);
+		printf("despues del signo $\n");
 	}
 	free(line), free(pathtokens), free(ttk);
 	return (EXIT_SUCCESS);
