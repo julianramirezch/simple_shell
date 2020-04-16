@@ -3,9 +3,7 @@
 /**
  * commmand_not - print the error message when
  * command can't be found
- * @com: command recived.
- * @arg: arrguments recived.
- * @cont: count the iterations in the main function
+ * @var: global structure.
  * @msg: message to be printed
  * Return: integer.
  */

@@ -41,20 +41,13 @@ void sig_handler(int signum);
 void _getenv(stva *var, char *word);
 void tokensfun(stva *var, char *line);
 void _path(stva *var);
-//void concatenate(stva *var, char *string1, char *string2);
+void execute(stva *var);
+void commmand_not(stva *var, char *msg);
 void concatenate(stva *var);
-
 /* String functions */
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);
 /*--------------------*/
-
-void commmand_not(stva *var, char *msg);
-size_t count_direc(char **direct);
-
-int (*built_in_check(char *ttk))();
-void exit_func(char *line, char **ttk);
-void freepathtokens(char **pathtokens);
 
 #endif

@@ -3,11 +3,12 @@
 /**
  * _getenv - function that gets
  * the environment variable PATH
+ * @var: global structure
  * @word: variable PATH to search
  * Return: the found path.
  */
 
-void _getenv(stva *var,char *word)
+void _getenv(stva *var, char *word)
 {
 	char *copy;
 	char *path_o;
@@ -22,7 +23,7 @@ void _getenv(stva *var,char *word)
 			j++;
 		if (j == k)
 		{
-			path_o = _strdup(copy); //duplicado del path;
+			path_o = _strdup(copy);
 			var->path = path_o;
 			break;
 		}
