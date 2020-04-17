@@ -43,7 +43,9 @@ int _fork(stva *var, char *line, pid_t pid)
 		{
 			concatenate(var);
 			if (var->concat == NULL)
-			{ free(var->tok), free(var->pathtok), free(var->path);
+			{
+			free(var->pathtok);
+			free(var->path);
 				return (1); }
 			else if (var->status == 0)
 			{ execve(var->concat, var->tok, NULL);
@@ -83,7 +85,8 @@ int main(__attribute__((unused))int argc, char **av)
 
 		if (_strcmp(line, "exit\n") == 0)
 			free_exit(&var, line);
-
+		if (_strcmp(line, "env\n") == 0)
+			_env(line);
 		tmp = _fork(&var, line, pid);
 
 		if (tmp == 1)

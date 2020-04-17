@@ -46,3 +46,23 @@ void _path(stva *var)
 	var->pathtok = finalargs;
 	free(string);
 }
+
+/**
+ * _env - prints the enviroment variable
+ * @var: global structure
+ * Return: none
+ */
+void _env(char *line)
+{
+	int env = 0;
+
+	if (_strcmp(line, "env\n") == 0)
+	{
+		while (environ[env])
+		{
+			write(STDOUT_FILENO, environ[env], _strlen(environ[env])),
+			env++;
+		}
+	}
+	write(STDOUT_FILENO, "\n", 1);
+}

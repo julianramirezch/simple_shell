@@ -42,7 +42,6 @@ int tokensfun(stva *var, char *line)
 	free(string);
 	tokens[index] = NULL;
 	var->tok = tokens;
-	free(tokens);
 	return (1);
 }
 

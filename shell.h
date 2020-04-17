@@ -54,6 +54,7 @@ void _notfound2(stva *var);
 void free_exit(stva *var, char *line);
 void _validation(stva *var);
 void loop_concatenate(stva *var, int len1);
+void _env(char *line);
 /* String functions */
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
