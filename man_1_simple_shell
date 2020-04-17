@@ -1,15 +1,18 @@
-.TH simple_shell [simple_shell] [1] [Cohort_11] [version1.0] [man_page]
+.TH man 1 "17 April 2020" "1.0" "Simple Shell Project"
 .SH NAME
 .B simple_shell
 
 .SH SYNOPSIS
 - Command interpreter based on sh shell.
-please #include "jshell.c"
+please #include "jshell.h"
 
 .SH DESCRIPTION
 .PP The simple_shell project validates each command written in the prompt and
 execute the command recived. With or without arguments.
-.SH OPTIONS
+.SH RETURN VALUE
+On success 0 is returned but if had trouble with command or it's not found return
+is: 126 or 127, on Error return return -1.
+.SH EXAMPLES
 .PP Through the instructions provided by the interpreter, the user can communicate with the kernel and by extension,
 execute various commands, as well as tools that allow him to control the operation of the computer.
 .PP Here! some examples about the use of simple shell
@@ -25,12 +28,12 @@ Also can use the arguments in the simple shell like ls -la /tmp
 .IP
 Try to use Top to execute linux commands
 .IP
-%b if the path can be executed simple_shell do it! try /bin/ls
+if the path can be executed simple_shell do it! try /bin/ls
 .IP
 To exit of simple shell just use ^D or write exit on prompt line.
 
 
-.SH Credits
+.SH CREDITS
 Based on Bourne shell (sh) - Written by Steve Bourne, when he was at Bell Labs.
 It was first released with Version 7 Unix, in 1978, and improved over the years.
 .SH AUTHOR
