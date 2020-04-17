@@ -56,7 +56,7 @@ void _permission(stva *var)
 {
 	var->concat = NULL;
 	commmand_not(var, "Permission denied\n");
-	var->status= 126;
+	var->status = 126;
 }
 
 /**

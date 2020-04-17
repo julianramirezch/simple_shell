@@ -43,7 +43,7 @@ void free_st(stva *var);
 /*---------------*/
 void sig_handler(int signum);
 void _getenv(stva *var, char *word);
-void tokensfun(stva *var, char *line);
+int tokensfun(stva *var, char *line);
 void _path(stva *var);
 void execute(stva *var);
 void commmand_not(stva *var, char *msg);
@@ -52,7 +52,7 @@ void _permission(stva *var);
 void _notfound(stva *var);
 void _notfound2(stva *var);
 void free_exit(stva *var, char *line);
-void _validation (stva *var);
+void _validation(stva *var);
 void loop_concatenate(stva *var, int len1);
 /* String functions */
 int _strlen(char *s);

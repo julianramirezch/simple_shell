@@ -39,7 +39,7 @@ gcc -Wall -Werror -Wextra -pedantic *.c -o hsh
 ## Use
 * Run the man page for examples:
 ```sh
-$ man ./man_1_simple_shell 
+$ man ./man_1_simple_shell
 ```
 All commands and builtins that you can use are in the manual page.
 ## Files
@@ -56,4 +56,3 @@ All commands and builtins that you can use are in the manual page.
 ### This project was developed by:
  - [Julian Ramirez chacón][https://github.com/julianramirezch]
  - [Jairo Fernando Sandoval][https://github.com/sandovbarr]
- 

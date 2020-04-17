@@ -16,47 +16,44 @@ void sig_handler(int signum)
  * @var: global structure
  * @line: buffer that contains the getline buff
  * @pid: is the pid proccess
- * @st: structstat
+ * Return: zero.
  */
 
 int _fork(stva *var, char *line, pid_t pid)
 {
 	if (line[0] == '\n' || (line[0] == ' ' && line[1] != ' ') || line[0] == '\t')
 		write(STDOUT_FILENO, "evilshell$ ", 11);
-	else if (line[0] == '.' && line[1] == ' ')
-		write(STDOUT_FILENO, "evilshell$ ", 11);
-	else if (_strcmp(line, "exit\n") == 0)
-		free_exit(var, line);
 	else
 	{
-		tokensfun(var, line);
-		printf("_strcmp es %i\n",_strcmp(var->tok[0], "."));
-		if (var->tok[0] == NULL || _strcmp(var->tok[0], ".") == 0)/* ARREGAL */
+		if (tokensfun(var, line) == 0)
+			return (5);
+		if (var->tok[0] == NULL || (var->tok[0][0] == '.' && var->tok[0][1] != '/'))
 		{
-			printf("strcmp es %i\n",strcmp(var->tok[0], "."));
 			free(var->tok);
 			write(STDOUT_FILENO, "evilshell$ ", 11);
-			return(0);
+			return (0);
 		}
 		execute(var);
+
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("Error:");
-			exit(EXIT_FAILURE);
-		}
+		{ perror("Error:");
+			exit(EXIT_FAILURE); }
 		if (pid == 0)
 		{
+			concatenate(var);
 			if (var->concat == NULL)
-			{
-				free(var->tok), free(var->pathtok), free(var->path);
-				return (1);
-			}
+			{ free(var->tok), free(var->pathtok), free(var->path);
+				return (1); }
 			else if (var->status == 0)
-				execve(var->concat, var->tok, NULL);
+			{ execve(var->concat, var->tok, NULL);
+				exit(0); }
 		}
 		else
-		wait(&pid);
+		{
+			wait(&pid);
+			free(var->concat);
+		}
 		write(STDOUT_FILENO, "evilshell$ ", 11), free_st(var);
 	}
 	return (0);
@@ -82,10 +79,21 @@ int main(__attribute__((unused))int argc, char **av)
 	signal(SIGINT, sig_handler);
 	while ((character = getline(&line, &size, stdin)) != EOF)
 	{
+		int tmp;
+
 		if (_strcmp(line, "exit\n") == 0)
 			free_exit(&var, line);
-		if (_fork(&var, line, pid) == 1)
+
+		tmp = _fork(&var, line, pid);
+
+		if (tmp == 1)
 			break;
+		else if (tmp == 5)
+		{
+			write(STDOUT_FILENO, "evilshell$ ", 11);
+			continue;
+		}
+
 		var.wcount++;
 	}
 	return (free(line), var.status);
@@ -113,6 +121,6 @@ void execute(stva *var)
 {
 	_getenv(var, "PATH");
 	_path(var);
-	concatenate(var);
-}
 
+
+}

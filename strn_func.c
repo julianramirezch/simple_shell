@@ -17,11 +17,11 @@ void concatenate(stva *var)
 	dir = opendir(var->tok[0]);
 	len1 = _strlen(var->tok[0]);
 
-	if(dir)
+	if (dir)
 	{
 		closedir(dir);
 		commmand_not(var, "Permission denied\n");
-		var->status= 126;
+		var->status = 126;
 		return;
 	}
 
@@ -37,20 +37,16 @@ void concatenate(stva *var)
 			}
 			else
 			{
-				printf("EROORORORO\n");/*SHOW ERROR MESSAGE*/
+				commmand_not(var, "Not found\n");
 				var->status = 126;
 				return;
 			}
 		}
 		else
-		{
-			var->concat = NULL;
+		{ var->concat = NULL, var->status = 127;
 			commmand_not(var, "Not found\n");
-			var->status = 127;
-			return;
-		}
+			return; }
 	}
-		 /* tiene que llegar al execve - doble validacion */
 	else
 		loop_concatenate(var, len1);
 }
@@ -123,36 +119,5 @@ char *_strdup(char *str)
 	{
 		str2[cont2] = str[cont2];
 	}
-	/* str2[cont2] = '\0'; */
 	return (str2);
-}
-
-/**
- *_validation: First Validation
- * @var: Structure
- */
-void _validation (stva *var)
-{
-	struct stat st;
-
-	if (stat(var->tok[0], &st) == 0)
-		{
-			if (access(var->tok[0], X_OK) == 0)
-			{
-				var->concat = var->tok[0];
-				var->status = 0;
-				return;
-			}
-			else
-			{
-				printf("EROORORORO\n");/*SHOW ERROR MESSAGE*/
-				var->status = 126;
-				return;
-			}
-		}
-		else
-		{
-			_notfound(var);
-			return;
-		}
 }

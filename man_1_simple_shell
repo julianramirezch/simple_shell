@@ -3,16 +3,16 @@
 .B simple_shell
 
 .SH SYNOPSIS
-- Command interpreter based on sh shell. 
+- Command interpreter based on sh shell.
 please #include "jshell.c"
 
 .SH DESCRIPTION
 .PP The simple_shell project validates each command written in the prompt and
 execute the command recived. With or without arguments.
 .SH OPTIONS
-.PP Through the instructions provided by the interpreter, the user can communicate with the kernel and by extension, 
+.PP Through the instructions provided by the interpreter, the user can communicate with the kernel and by extension,
 execute various commands, as well as tools that allow him to control the operation of the computer.
-.PP Here! some examples about the use of simple shell 
+.PP Here! some examples about the use of simple shell
 
 .IP
 This simple shell reads your command, let's try it!
@@ -31,7 +31,7 @@ To exit of simple shell just use ^D or write exit on prompt line.
 
 
 .SH Credits
-Based on Bourne shell (sh) - Written by Steve Bourne, when he was at Bell Labs. 
+Based on Bourne shell (sh) - Written by Steve Bourne, when he was at Bell Labs.
 It was first released with Version 7 Unix, in 1978, and improved over the years.
 .SH AUTHOR
 Julian Jose Ramirez Chacon & Jairo Fernando Sandoval BArrero in Holberton School Cohort 11 0120 BOG

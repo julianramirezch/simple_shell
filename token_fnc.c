@@ -7,9 +7,9 @@
  * Return: 0 is succes.
  */
 
-void tokensfun(stva *var, char *line)
+int tokensfun(stva *var, char *line)
 {
-	char *string, *token = NULL, **tokens = NULL;
+	char *string,  **tokens = NULL, *token = NULL;
 	int index = 0, copy = 0, len = 0;
 
 	/*conoce tamaño y asigna nueva mem*/
@@ -20,24 +20,30 @@ void tokensfun(stva *var, char *line)
 	while (line[copy] != '\n')
 		string[copy] = line[copy], copy++;
 	string[copy] = '\0';
-	/*crea el token para saber cuantas palabras son*/
-	token = strtok(string, " \n");
-	while (token != NULL)
-		token = strtok(NULL, "  \n"), index++;
-	/*asigna tamaño a array de palabras / setea variables a 0*/
-	tokens = malloc(sizeof(char *) * (index + 1)); /* copy = 0; */
+	/*asigna tamaño a array de palabras / setea var iables a 0*/
+	tokens = malloc(2048); /* copy = 0; */
 	index = 0;
-	/*reasigna los espacios al string de copia*/
 	/*apunta cada palabra a cada posicion del array de palabras*/
 	token = strtok(line, " \n");
-	while (token != NULL)
+	if (token)
 	{
-		tokens[index] = token;
-		token = strtok(NULL, " \n\t"), index++;
+		while (token != NULL)
+		{
+			tokens[index] = token;
+			token = strtok(NULL, " \n\t"), index++;
+		}
+	}
+	else
+	{
+		free(string);
+		free(tokens);
+		return (0);
 	}
 	free(string);
 	tokens[index] = NULL;
 	var->tok = tokens;
+	free(tokens);
+	return (1);
 }
 
 /**
@@ -58,11 +64,16 @@ void free_exit(stva *var, char *line)
 	}
 	exit(var->status);
 }
-
+/**
+ * loop_concatenate - Loop concatenate
+ * @var: Structure.
+ * @len1: len string
+ */
 void loop_concatenate(stva *var, int len1)
 {
 	int x = 0, y = 0, len2;
 	struct stat st;
+
 	while (var->pathtok[x]) /* la ruta */
 	{
 		len2 = _strlen(var->pathtok[x]); /* len de la ruta */
@@ -83,20 +94,19 @@ void loop_concatenate(stva *var, int len1)
 				return;
 			}
 			else
-			{
-				commmand_not(var, "Not found\n");
+			{ commmand_not(var, "Not found\n");
 				var->status = 126;
-				return;
-			}
+				return; }
 		}
 
 		if (var->pathtok[x + 1] == NULL)
 		{
-			var->concat = NULL;
 			commmand_not(var, "Not found\n");
+			free(var->tok);
 			var->status = 127;
 		}
 		free(var->concat);
+		var->concat = NULL;
 		y = 0;
 		x++;
 	}
