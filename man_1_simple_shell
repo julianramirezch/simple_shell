@@ -1,122 +1,37 @@
-.TH _printf 1.0
+.TH simple_shell [simple_shell] [1] [Cohort_11] [version1.0] [man_page]
 .SH NAME
-_printf - _printf recreates the primary functions of printf
+.B simple_shell
+
 .SH SYNOPSIS
-#include "holberton.h"
+- Command interpreter based on sh shell. 
+please #include "jshell.c"
 
-int _printf(const char *format, ...);
-.SH
-.B DESCRIPTION
-_printf() - is a function is a powerful device for printing numbers and other things stored in variables. With this power there is a certain amount of complexity. Taken all at once, the complexity makes printf seem almost impossible to understand. But the complexity can be easily unfolded into simple features, including width, precision, signage, justification, and fill. By recognizing and understanding these features, printf will become a useful and friendly servant in your printing endeavors.
+.SH DESCRIPTION
+.PP The simple_shell project validates each command written in the prompt and
+execute the command recived. With or without arguments.
+.SH OPTIONS
+.PP Through the instructions provided by the interpreter, the user can communicate with the kernel and by extension, 
+execute various commands, as well as tools that allow him to control the operation of the computer.
+.PP Here! some examples about the use of simple shell 
 
-.TP
-.B Compile
+.IP
+This simple shell reads your command, let's try it!
+.IP
+First, try a simple command like ls, lists the files on the current path
+.IP
+Now use the flags of the command like -la
+.IP
+Also can use the arguments in the simple shell like ls -la /tmp
+.IP
+Try to use Top to execute linux commands
+.IP
+%b if the path can be executed simple_shell do it! try /bin/ls
+.IP
+To exit of simple shell just use ^D or write exit on prompt line.
 
-gcc -Wall -Werror -Wextra -pedantic *.c -o printf
 
-.TP
-.B Return Value
-
-The return value of _printf is the number of characters printed, excluding the terminating NULL byte.
-
--1 is returned on falure.
-
-.SH FORMATS
-
-.TP
-The character % is the conversion specifier and should be followed by the following characters:
-
-.B i, d
-Print positive and negative numbers.
-
-.B c
-Print characters, first is converted to an int ASCII and print the char.
-
-.B s
-Print strings , when the string is NULL print (null).
-
-.B r
-Prin th reverse of a string.
-
-.B %
-Print the character % .
-
-.B R
-Print string in rot13.
-
-.B u
-Print number as unsigned int.
-
-.B x
-Print number to hexadecimal in lowercase
-
-.B X
-Print number to hexadecimal in uppercase.
-
-.B o
-Print number to octal base.
-
-.B b
-Print number to binary decimal
-
-.SH EXAMPLE
-.B first example
-
-#include "holberton.h"
-
-int main(void)
-{
-
-	unsigned int unsignedempty = 12312312;
-
-	_printf("Number: [%d]\n", -762534);
-
-	_printf("Number: [%d]\n", unsignedempty);
-
-	_printf("NUmber: [%d, %i]\n", 0000000000000001, 0000000000000001);
-
-	return 0;
-
-}
-
-.B second example
-
-#include "holberton.h"
-int main(void)
-{
-
-	char c = 'c';
-	_printf("String: [%s]\n", "Holberton School");
-
-	_printf("Char: [%c]\n", c);
-
-	_printf("String: [%s]\n", "H3ll0 W0rld");
-
-	return 0;
-
-}
-
-.B third example
-
-#include "holberton.h"
-int main(void)
-{
-
-	int len = 2, i;
-
-	_printf("Number: [%d]\n", len + 2);
-
-	for(i = 0; i > 3; i++)
-      	      _printf("Number: [%d]", i);
-
-      return 0;
-
-}
-
-.SH GITHUB REPOSITORY
-.RS
-Visit : "https://github.com/julianramirezch/printf
-.RE
-
+.SH Credits
+Based on Bourne shell (sh) - Written by Steve Bourne, when he was at Bell Labs. 
+It was first released with Version 7 Unix, in 1978, and improved over the years.
 .SH AUTHOR
-Jairo Sandoval, Julian Ramirez
+Julian Jose Ramirez Chacon & Jairo Fernando Sandoval BArrero in Holberton School Cohort 11 0120 BOG
