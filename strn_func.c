@@ -21,7 +21,7 @@ void concatenate(stva *var)
 	{
 		closedir(dir);
 		commmand_not(var, "Permission denied\n");
-		var->status = 126;
+		var->status = 126, free(var->tok);
 		return;
 	}
 

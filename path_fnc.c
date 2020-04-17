@@ -49,7 +49,7 @@ void _path(stva *var)
 
 /**
  * _env - prints the enviroment variable
- * @var: global structure
+ * @line:line
  * Return: none
  */
 void _env(char *line)

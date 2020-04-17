@@ -55,8 +55,9 @@ int _fork(stva *var, char *line, pid_t pid)
 		{
 			wait(&pid);
 			free(var->concat);
+			free_st(var);
 		}
-		write(STDOUT_FILENO, "evilshell$ ", 11), free_st(var);
+		write(STDOUT_FILENO, "evilshell$ ", 11);
 	}
 	return (0);
 }
