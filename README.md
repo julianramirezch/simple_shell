@@ -1,7 +1,7 @@
 <p align="center">
 <img src="https://www.entreprises-magazine.com/wp-content/uploads/2019/11/Holberton-School-et-l%E2%80%99IHEC-Carthage.png">
 
-<h1>The simple shell Project</h1>
+<h1 align="center">The simple shell Project</h1>
 Simple shell provides to users an interface to give simple orders to the system.
 </p>
 
@@ -62,7 +62,7 @@ All commands and builtins that you can use are in the manual page.
 ## flowchart
 
 <p align="center">
-<img src="https://www.entreprises-magazine.com/wp-content/uploads/2019/11/Holberton-School-et-l%E2%80%99IHEC-Carthage.png">
+<img src="https://www.goconqr.com/es-ES/flowchart/22089213/Simple-Shell-Flowchart">
 </p>
 
 ### This project was developed by:
