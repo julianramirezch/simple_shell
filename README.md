@@ -2,8 +2,10 @@
 <img src="https://www.entreprises-magazine.com/wp-content/uploads/2019/11/Holberton-School-et-l%E2%80%99IHEC-Carthage.png">
 </p>
 
+<p align="center">
 <h1>The simple shell Project</h1>
-A simple UNIX command interpreter that provides a user interface to access and give orders to the operating system.
+Simple shell provides to users an interface to give simple orders to the system.
+</p>
 
 ## Looks my content!
 * [Requirements](#requirements)
