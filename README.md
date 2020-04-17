@@ -1,4 +1,6 @@
-# <a href="https://www.holbertonschool.com/holberton-logo.png" alt="holberton_logo" width="60" height="60" border="0"></a> Simple shell
+<p align="center">
+<img src="https://www.entreprises-magazine.com/wp-content/uploads/2019/11/Holberton-School-et-l%E2%80%99IHEC-Carthage.png">
+</p>
 
 A simple UNIX command interpreter that provides a user interface to access and give orders to the operating system.
 
@@ -52,6 +54,6 @@ All commands and builtins that you can use are in the manual page.
 * [token_fnc.c] - Create tokens for arguments recived
 
 ### This project was developed by:
- - [Jairo Fernando Sandoval][https://github.com/sandovbarr?tab=repositories]
  - [Julian Ramirez chacón][https://github.com/julianramirezch]
+ - [Jairo Fernando Sandoval][https://github.com/sandovbarr]
  
