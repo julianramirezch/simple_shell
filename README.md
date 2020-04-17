@@ -61,6 +61,7 @@ All commands and builtins that you can use are in the manual page.
 
 ## flowchart
 
+<p align="center">
 <img src="https://www.entreprises-magazine.com/wp-content/uploads/2019/11/Holberton-School-et-l%E2%80%99IHEC-Carthage.png">
 </p>
 
