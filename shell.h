@@ -52,11 +52,13 @@ void _permission(stva *var);
 void _notfound(stva *var);
 void _notfound2(stva *var);
 void free_exit(stva *var, char *line);
+void _validation (stva *var);
+void loop_concatenate(stva *var, int len1);
 /* String functions */
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);
 /*--------------------*/
-int _fork(stva *var, char *line, pid_t pid, struct stat st);
+int _fork(stva *var, char *line, pid_t pid);
 
 #endif

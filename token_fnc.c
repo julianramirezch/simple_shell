@@ -13,7 +13,8 @@ void tokensfun(stva *var, char *line)
 	int index = 0, copy = 0, len = 0;
 
 	/*conoce tamaño y asigna nueva mem*/
-	for (len = 0; line[len]; len++);
+	for (len = 0; line[len]; len++)
+	{}
 	string = malloc(sizeof(char) * (len));
 	/*hace una copia del string de entrada*/
 	while (line[copy] != '\n')
@@ -52,8 +53,51 @@ void free_exit(stva *var, char *line)
 	else
 	{
 		free(line);
-		//free(var->pathtok);
-		//free(var->path);
+		/* free(var->pathtok);*/
+		/*free(var->path);*/
 	}
 	exit(var->status);
+}
+
+void loop_concatenate(stva *var, int len1)
+{
+	int x = 0, y = 0, len2;
+	struct stat st;
+	while (var->pathtok[x]) /* la ruta */
+	{
+		len2 = _strlen(var->pathtok[x]); /* len de la ruta */
+		var->concat = malloc(sizeof(char) * (len1 + len2 + 2));
+		while (var->pathtok[x][y])
+			var->concat[y] = var->pathtok[x][y], y++; /*pon0e la ruta */
+		var->concat[y] = '/';
+		y++;
+		len1 = 0;
+		while (var->tok[0][len1])
+			var->concat[y] = var->tok[0][len1], y++, len1++; /* cpone comando */
+		var->concat[y] = '\0';
+		if (stat(var->concat, &st) == 0) /* concatenate*/
+		{
+			if (access(var->concat, X_OK) == 0)
+			{
+				var->status = 0;
+				return;
+			}
+			else
+			{
+				commmand_not(var, "Not found\n");
+				var->status = 126;
+				return;
+			}
+		}
+
+		if (var->pathtok[x + 1] == NULL)
+		{
+			var->concat = NULL;
+			commmand_not(var, "Not found\n");
+			var->status = 127;
+		}
+		free(var->concat);
+		y = 0;
+		x++;
+	}
 }

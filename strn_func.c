@@ -9,7 +9,8 @@
 
 void concatenate(stva *var)
 {
-	int x = 0, y = 0, len1, len2;
+
+	int  len1;
 	struct stat st;
 	DIR *dir = NULL;
 
@@ -51,45 +52,7 @@ void concatenate(stva *var)
 	}
 		 /* tiene que llegar al execve - doble validacion */
 	else
-	{
-		while (var->pathtok[x]) /* la ruta */
-		{
-			len2 = _strlen(var->pathtok[x]); /* len de la ruta */
-			var->concat = malloc(sizeof(char) * (len1 + len2 + 2));
-			while (var->pathtok[x][y])
-				var->concat[y] = var->pathtok[x][y], y++; /*pon0e la ruta */
-			var->concat[y] = '/';
-			y++;
-			len1 = 0;
-			while (var->tok[0][len1])
-				var->concat[y] = var->tok[0][len1], y++, len1++; /* cpone comando */
-			var->concat[y] = '\0';
-			if (stat(var->concat, &st) == 0) /* concatenate*/
-			{
-				if (access(var->concat, X_OK) == 0)
-				{
-					var->status = 0;
-					return;
-				}
-				else
-				{
-					commmand_not(var, "Not found\n");
-					var->status = 126;
-					return;
-				}
-			}
-
-			if (var->pathtok[x + 1] == NULL)
-			{
-				var->concat = NULL;
-				commmand_not(var, "Not found\n");
-				var->status = 127;
-			}
-			free(var->concat);
-			y = 0;
-			x++;
-		}
-	}
+		loop_concatenate(var, len1);
 }
 
 /**
@@ -114,14 +77,26 @@ int _strlen(char *s)
  */
 int _strcmp(char *s1, char *s2)
 {
-	int j;
+	int i, size1, size2;
 
-	for (j = 0 ; s2[j] != '\0' ; j++)
+	for (size1 = 0; *(s1 + size1) != '\0'; size1++)
+	{}
+	for (size2 = 0; *(s2 + size2) != '\0'; size2++)
+	{}
+	size1--;
+	size2--;
+	for (i = 0; *(s1 + i) != '\0' && *(s2 + i) != '\0'; i++)
 	{
-		if (s1[j] != s2[j])
-			return (0);
+		if (s1[i] > s2[i])
+		{
+			return (s1[i] - s2[i]);
+		}
+		else if (s1[i] < s2[i])
+		{
+			return (s1[i] - s2[i]);
+		}
 	}
-	return (1);
+	return (0);
 }
 
 /**
@@ -150,4 +125,34 @@ char *_strdup(char *str)
 	}
 	/* str2[cont2] = '\0'; */
 	return (str2);
+}
+
+/**
+ *_validation: First Validation
+ * @var: Structure
+ */
+void _validation (stva *var)
+{
+	struct stat st;
+
+	if (stat(var->tok[0], &st) == 0)
+		{
+			if (access(var->tok[0], X_OK) == 0)
+			{
+				var->concat = var->tok[0];
+				var->status = 0;
+				return;
+			}
+			else
+			{
+				printf("EROORORORO\n");/*SHOW ERROR MESSAGE*/
+				var->status = 126;
+				return;
+			}
+		}
+		else
+		{
+			_notfound(var);
+			return;
+		}
 }
