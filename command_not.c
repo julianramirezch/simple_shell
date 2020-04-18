@@ -46,36 +46,3 @@ void commmand_not(stva *var, char *msg)
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, msg, _strlen(msg));
 }
-
-/**
- * _permission- Message and status
- * @var: Structure
- */
-
-void _permission(stva *var)
-{
-	var->status = 126;
-	commmand_not(var, "Permission denied\n");
-}
-
-/**
- * _notfound- Message and status
- * @var: Structure
- */
-void _notfound(stva *var)
-{
-	var->status = 127;
-	commmand_not(var, "not found\n");
-}
-
-/**
- * _notfound2- Message and status
- * @var: Structure
- */
-
-void _notfound2(stva *var)
-{
-	var->status = 127;
-	var->concat = NULL;
-	commmand_not(var, "not found\n");
-}
