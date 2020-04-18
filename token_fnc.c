@@ -55,7 +55,7 @@ int free_exit(stva *var, char *line)
 		free(line);
 	}
 
-	exit(var->status);
+	exit(0);
 	return (0);
 }
 
@@ -89,14 +89,14 @@ void loop_concatenate(stva *var, int len1)
 				return;
 			}
 			else
-			{ commmand_not(var, "Not found\n");
+			{ commmand_not(var, "not found\n");
 				var->status = 126;
 				return; }
 		}
 
 		if (var->pathtok[x + 1] == NULL)
 		{
-			commmand_not(var, "Not found\n");
+			commmand_not(var, "not found\n");
 			var->status = 127;
 		}
 		free(var->concat);

@@ -37,14 +37,14 @@ void concatenate(stva *var)
 			}
 			else
 			{
-				commmand_not(var, "Not found\n");
+				commmand_not(var, "not found\n");
 				var->status = 126;
 				return;
 			}
 		}
 		else
 		{ var->concat = NULL, var->status = 127;
-			commmand_not(var, "Not found\n");
+			commmand_not(var, "not found\n");
 			return; }
 	}
 	else
