@@ -52,9 +52,7 @@ int _fork(stva *var, char *line, pid_t pid, struct stat st)
 			exit(0);
 		}
 		else if (var->status == 0)
-		{	printf("var->status es %i\n", var->status);
 			execve(var->concat, var->tok, NULL);
-		}
 	}
 	else
 		wait(&pid);
