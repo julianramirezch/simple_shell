@@ -25,12 +25,14 @@ int _fork(stva *var, char *line, pid_t pid, struct stat st)
 	(void)st;
 
 	tokensfun(var, line);
+
 	if (var->tok[0] == NULL || _strcmp(var->tok[0], ".") == 0)
 	{
 		free(var->tok);
 		return (0);
 	}
 	execute(var);
+	concatenate(var);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -39,14 +41,13 @@ int _fork(stva *var, char *line, pid_t pid, struct stat st)
 	}
 	if (pid == 0)
 	{
-		concatenate(var);
 		if (var->status != 0)
 		{
 			free(var->tok);
+			if (line)
+				free(line);
 			free(var->pathtok);
 			free(var->path);
-			free(var->concat);
-			free(line);
 			exit(0);
 		}
 		else if (var->status == 0)
@@ -55,6 +56,9 @@ int _fork(stva *var, char *line, pid_t pid, struct stat st)
 	else
 		wait(&pid);
 	free_st(var);
+	if (line != var->concat && var->concat)
+		free(var->concat);
+
 	return (0);
 }
 /**
@@ -86,8 +90,13 @@ int main(__attribute__((unused))int argc, char **av)
 		_fork(&var, line, pid, st);
 		var.wcount++;
 		write(STDOUT_FILENO, "$ ", 2);
+
+
 	}
-	free(line);
+	if (line == var.concat)
+		free(line);
+	if (line != var.concat)
+		free(line);
 	return (var.status);
 }
 
