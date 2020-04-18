@@ -42,8 +42,6 @@ int _fork(stva *var, char *line, pid_t pid, struct stat st)
 		concatenate(var);
 		if (var->status != 0)
 		{
-			printf("var->status es %i\n", var->status);
-
 			free(var->tok);
 			free(var->pathtok);
 			free(var->path);
