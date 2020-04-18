@@ -16,7 +16,6 @@ void sig_handler(int signum)
  * @var: global structure
  * @line: buffer that contains the getline buff
  * @pid: is the pid proccess
- * @st: structstat
  * Return: 0 succes
  */
 
@@ -31,6 +30,14 @@ int _fork(stva *var, char *line, pid_t pid)
 	}
 	execute(var);
 	concatenate(var);
+	if (var->status != 0)
+	{
+		free(var->tok);
+		if (line)
+			free(line);
+		free(var->pathtok);
+		free(var->path);
+	}
 	pid = fork();
 	if (pid == -1)
 	{
@@ -39,16 +46,7 @@ int _fork(stva *var, char *line, pid_t pid)
 	}
 	if (pid == 0)
 	{
-		if (var->status != 0)
-		{
-			free(var->tok);
-			if (line)
-				free(line);
-			free(var->pathtok);
-			free(var->path);
-			exit(0);
-		}
-		else if (var->status == 0)
+		if (var->status == 0)
 			execve(var->concat, var->tok, environ);
 	}
 	else
@@ -87,8 +85,9 @@ int main(__attribute__((unused))int argc, char **av)
 		if (_strcmp(line, "env\n") == 0)
 			env_print(&var);
 		_fork(&var, line, pid);
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "$ ", 2);
 		var.wcount++;
-		write(STDOUT_FILENO, "$ ", 2);
 
 
 	}
@@ -96,6 +95,8 @@ int main(__attribute__((unused))int argc, char **av)
 		free(line);
 	if (line != var.concat)
 		free(line);
+	if (isatty(STDIN_FILENO))
+		write(STDOUT_FILENO, "\n", 1);
 	return (var.status);
 }
 
