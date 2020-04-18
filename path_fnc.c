@@ -46,3 +46,23 @@ void _path(stva *var)
 	var->pathtok = finalargs;
 	free(string);
 }
+
+/**
+ * env_print - Print env
+ * @var: Structure
+ */
+void env_print(stva *var)
+{
+	(void)var;
+
+	unsigned int i, length;
+
+	i = 0;
+	while (environ[i])
+	{
+		length = _strlen(environ[i]);
+		write(STDOUT_FILENO, environ[i], length);
+		write(STDOUT_FILENO, "\n", 1);
+		++i;
+	}
+}

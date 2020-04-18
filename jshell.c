@@ -87,6 +87,8 @@ int main(__attribute__((unused))int argc, char **av)
 
 		if (_strcmp(line, "exit\n") == 0)
 			free_exit(&var, line);
+		if (_strcmp(line, "env\n") == 0)
+			env_print(&var);
 		_fork(&var, line, pid, st);
 		var.wcount++;
 		write(STDOUT_FILENO, "$ ", 2);
