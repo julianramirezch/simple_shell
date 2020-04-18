@@ -20,10 +20,8 @@ void sig_handler(int signum)
  * Return: 0 succes
  */
 
-int _fork(stva *var, char *line, pid_t pid, struct stat st)
+int _fork(stva *var, char *line, pid_t pid)
 {
-	(void)st;
-
 	tokensfun(var, line);
 
 	if (var->tok[0] == NULL || _strcmp(var->tok[0], ".") == 0)
@@ -73,7 +71,6 @@ int main(__attribute__((unused))int argc, char **av)
 	ssize_t character;
 	pid_t pid = 0;
 	char *line = NULL;
-	struct stat st;
 	stva var;
 
 	var.tok = NULL, var.pathtok = NULL, var.argv = av, var.path = NULL;
@@ -89,7 +86,7 @@ int main(__attribute__((unused))int argc, char **av)
 			free_exit(&var, line);
 		if (_strcmp(line, "env\n") == 0)
 			env_print(&var);
-		_fork(&var, line, pid, st);
+		_fork(&var, line, pid);
 		var.wcount++;
 		write(STDOUT_FILENO, "$ ", 2);
 

@@ -59,6 +59,6 @@ int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);
 /*--------------------*/
-int _fork(stva *var, char *line, pid_t pid, struct stat st);
+int _fork(stva *var, char *line, pid_t pid);
 
 #endif

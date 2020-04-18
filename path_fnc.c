@@ -51,18 +51,17 @@ void _path(stva *var)
  * env_print - Print env
  * @var: Structure
  */
-void env_print(stva *var)
+void env_print(__attribute__((unused))stva *var)
 {
-	(void)var;
 
-	unsigned int i, length;
+	int i = 0;
+	int length = 0;
 
-	i = 0;
 	while (environ[i])
 	{
 		length = _strlen(environ[i]);
 		write(STDOUT_FILENO, environ[i], length);
 		write(STDOUT_FILENO, "\n", 1);
-		++i;
+		i++;
 	}
 }
