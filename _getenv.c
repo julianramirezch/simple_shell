@@ -29,4 +29,3 @@ void _getenv(stva *var, char *word)
 			i++, j = 0;
 	}
 }
-

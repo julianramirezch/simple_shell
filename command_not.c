@@ -54,9 +54,8 @@ void commmand_not(stva *var, char *msg)
 
 void _permission(stva *var)
 {
-	var->concat = NULL;
-	commmand_not(var, "Permission denied\n");
 	var->status = 126;
+	commmand_not(var, "Permission denied\n");
 }
 
 /**
@@ -65,9 +64,8 @@ void _permission(stva *var)
  */
 void _notfound(stva *var)
 {
-	var->concat = NULL;
-	commmand_not(var, "Not found\n");
 	var->status = 127;
+	commmand_not(var, "not found\n");
 }
 
 /**
@@ -77,7 +75,7 @@ void _notfound(stva *var)
 
 void _notfound2(stva *var)
 {
+	var->status = 127;
 	var->concat = NULL;
 	commmand_not(var, "not found\n");
-	var->status = 126;
 }

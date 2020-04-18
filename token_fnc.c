@@ -7,9 +7,9 @@
  * Return: 0 is succes.
  */
 
-int tokensfun(stva *var, char *line)
+void tokensfun(stva *var, char *line)
 {
-	char *string,  **tokens = NULL, *token = NULL;
+	char *string, *token = NULL, **tokens = NULL;
 	int index = 0, copy = 0, len = 0;
 
 	/*conoce tamaño y asigna nueva mem*/
@@ -20,29 +20,24 @@ int tokensfun(stva *var, char *line)
 	while (line[copy] != '\n')
 		string[copy] = line[copy], copy++;
 	string[copy] = '\0';
-	/*asigna tamaño a array de palabras / setea var iables a 0*/
-	tokens = malloc(2048); /* copy = 0; */
+	/*crea el token para saber cuantas palabras son*/
+	token = strtok(string, " \n\t");
+	while (token != NULL)
+		token = strtok(NULL, "  \n\t"), index++;
+	/*asigna tamaño a array de palabras / setea variables a 0*/
+	tokens = malloc(sizeof(char *) * (index + 1)); /* copy = 0; */
 	index = 0;
+	/*reasigna los espacios al string de copia*/
 	/*apunta cada palabra a cada posicion del array de palabras*/
-	token = strtok(line, " \n");
-	if (token)
+	token = strtok(line, " \n\t");
+	while (token != NULL)
 	{
-		while (token != NULL)
-		{
-			tokens[index] = token;
-			token = strtok(NULL, " \n\t"), index++;
-		}
-	}
-	else
-	{
-		free(string);
-		free(tokens);
-		return (0);
+		tokens[index] = token;
+		token = strtok(NULL, " \n\t"), index++;
 	}
 	free(string);
 	tokens[index] = NULL;
 	var->tok = tokens;
-	return (1);
 }
 
 /**
@@ -51,18 +46,19 @@ int tokensfun(stva *var, char *line)
  * @line: Pointer to line
  * Return: none
  */
-void free_exit(stva *var, char *line)
+int free_exit(stva *var, char *line)
 {
 	if (var->wcount == 1)
 		free(line);
 	else
 	{
 		free(line);
-		/* free(var->pathtok);*/
-		/*free(var->path);*/
 	}
+
 	exit(var->status);
+	return (0);
 }
+
 /**
  * loop_concatenate - Loop concatenate
  * @var: Structure.
@@ -101,7 +97,6 @@ void loop_concatenate(stva *var, int len1)
 		if (var->pathtok[x + 1] == NULL)
 		{
 			commmand_not(var, "Not found\n");
-			free(var->tok);
 			var->status = 127;
 		}
 		free(var->concat);

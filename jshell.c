@@ -8,7 +8,7 @@
 void sig_handler(int signum)
 {
 	if (signum == 2)
-		write(STDOUT_FILENO, "\nevilshell$ ", 12);
+		write(STDOUT_FILENO, "\n$ ", 3);
 }
 
 /**
@@ -16,49 +16,49 @@ void sig_handler(int signum)
  * @var: global structure
  * @line: buffer that contains the getline buff
  * @pid: is the pid proccess
- * Return: zero.
+ * @st: structstat
+ * Return: 0 succes
  */
 
-int _fork(stva *var, char *line, pid_t pid)
+int _fork(stva *var, char *line, pid_t pid, struct stat st)
 {
-	if (line[0] == '\n' || (line[0] == ' ' && line[1] != ' ') || line[0] == '\t')
-		write(STDOUT_FILENO, "evilshell$ ", 11);
-	else
-	{
-		if (tokensfun(var, line) == 0)
-			return (5);
-		if (var->tok[0] == NULL || (var->tok[0][0] == '.' && var->tok[0][1] != '/'))
-		{
-			free(var->tok);
-			write(STDOUT_FILENO, "evilshell$ ", 11);
-			return (0);
-		}
-		execute(var);
+	(void)st;
 
-		pid = fork();
-		if (pid == -1)
-		{ perror("Error:");
-			exit(EXIT_FAILURE); }
-		if (pid == 0)
+	tokensfun(var, line);
+	if (var->tok[0] == NULL || _strcmp(var->tok[0], ".") == 0)
+	{
+		free(var->tok);
+		return (0);
+	}
+	execute(var);
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("Error:");
+		exit(EXIT_FAILURE);
+	}
+	if (pid == 0)
+	{
+		concatenate(var);
+		if (var->status != 0)
 		{
-			concatenate(var);
-			if (var->concat == NULL)
-			{
+			printf("var->status es %i\n", var->status);
+
+			free(var->tok);
 			free(var->pathtok);
 			free(var->path);
-				return (1); }
-			else if (var->status == 0)
-			{ execve(var->concat, var->tok, NULL);
-				exit(0); }
-		}
-		else
-		{
-			wait(&pid);
 			free(var->concat);
-			free_st(var);
+			free(line);
+			exit(0);
 		}
-		write(STDOUT_FILENO, "evilshell$ ", 11);
+		else if (var->status == 0)
+		{	printf("var->status es %i\n", var->status);
+			execve(var->concat, var->tok, NULL);
+		}
 	}
+	else
+		wait(&pid);
+	free_st(var);
 	return (0);
 }
 /**
@@ -73,34 +73,26 @@ int main(__attribute__((unused))int argc, char **av)
 	ssize_t character;
 	pid_t pid = 0;
 	char *line = NULL;
+	struct stat st;
 	stva var;
 
 	var.tok = NULL, var.pathtok = NULL, var.argv = av, var.path = NULL;
 	var.concat = NULL, var.status = 0, var.wcount = 1;
+
 	if (isatty(STDIN_FILENO))
-		write(STDOUT_FILENO, "evilshell$ ", 11);
+		write(STDOUT_FILENO, "$ ", 2);
 	signal(SIGINT, sig_handler);
 	while ((character = getline(&line, &size, stdin)) != EOF)
 	{
-		int tmp;
 
 		if (_strcmp(line, "exit\n") == 0)
 			free_exit(&var, line);
-		if (_strcmp(line, "env\n") == 0)
-			_env(line);
-		tmp = _fork(&var, line, pid);
-
-		if (tmp == 1)
-			break;
-		else if (tmp == 5)
-		{
-			write(STDOUT_FILENO, "evilshell$ ", 11);
-			continue;
-		}
-
+		_fork(&var, line, pid, st);
 		var.wcount++;
+		write(STDOUT_FILENO, "$ ", 2);
 	}
-	return (free(line), var.status);
+	free(line);
+	return (var.status);
 }
 
 /**
@@ -126,5 +118,5 @@ void execute(stva *var)
 	_getenv(var, "PATH");
 	_path(var);
 
-
 }
+

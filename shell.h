@@ -43,7 +43,7 @@ void free_st(stva *var);
 /*---------------*/
 void sig_handler(int signum);
 void _getenv(stva *var, char *word);
-int tokensfun(stva *var, char *line);
+void tokensfun(stva *var, char *line);
 void _path(stva *var);
 void execute(stva *var);
 void commmand_not(stva *var, char *msg);
@@ -51,15 +51,13 @@ void concatenate(stva *var);
 void _permission(stva *var);
 void _notfound(stva *var);
 void _notfound2(stva *var);
-void free_exit(stva *var, char *line);
-void _validation(stva *var);
+int free_exit(stva *var, char *line);
 void loop_concatenate(stva *var, int len1);
-void _env(char *line);
 /* String functions */
 int _strlen(char *s);
 int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);
 /*--------------------*/
-int _fork(stva *var, char *line, pid_t pid);
+int _fork(stva *var, char *line, pid_t pid, struct stat st);
 
 #endif
