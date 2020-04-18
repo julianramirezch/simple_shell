@@ -51,7 +51,7 @@ int _fork(stva *var, char *line, pid_t pid, struct stat st)
 			exit(0);
 		}
 		else if (var->status == 0)
-			execve(var->concat, var->tok, NULL);
+			execve(var->concat, var->tok, environ);
 	}
 	else
 		wait(&pid);
