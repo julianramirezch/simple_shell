@@ -15,6 +15,11 @@ void _getenv(stva *var, char *word)
 
 	for (k = 0; word[k]; k++)
 	{}
+	if (!environ)
+	{
+		var->path = NULL;
+		return;
+	}
 	while (environ[i])
 	{
 		while (word[j] == environ[i][j])
