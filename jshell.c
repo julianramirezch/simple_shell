@@ -22,8 +22,10 @@ void sig_handler(int signum)
 int _fork(stva *var, char *line, pid_t pid)
 {
 	tokensfun(var, line);
+
 	if (var->tok[0] == NULL || _strcmp(var->tok[0], ".") == 0)
 	{
+
 		free(var->tok);
 		return (0);
 	}
@@ -43,6 +45,7 @@ int _fork(stva *var, char *line, pid_t pid)
 		{
 			if (var->concat != NULL)
 				execve(var->concat, var->tok, environ);
+
 			if (var->slash != NULL)
 				execve(var->slash, var->tok, environ);
 		}

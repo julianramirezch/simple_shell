@@ -25,7 +25,7 @@ void concatenate(stva *var)
 		return;
 	}
 
-	if (var->tok[0][0] == '.' || var->tok[0][0] == '/') /* ./ls o /ls */
+	if (var->tok[0][0] == '.' || var->tok[0][0] == '/') /* ./ls o /ls /bin/ls */
 	{
 		if (stat(var->tok[0], &st) == 0)
 		{
@@ -69,29 +69,15 @@ int _strlen(char *s)
  * _strcmp - compare two strings
  * @s1: string1
  * @s2: string2
- * Return: 1 if success
+ * Return: 0 if success
  */
 int _strcmp(char *s1, char *s2)
 {
-	int i, size1, size2;
+	int i;
 
-	for (size1 = 0; *(s1 + size1) != '\0'; size1++)
-	{}
-	for (size2 = 0; *(s2 + size2) != '\0'; size2++)
-	{}
-	size1--;
-	size2--;
-	for (i = 0; *(s1 + i) != '\0' && *(s2 + i) != '\0'; i++)
-	{
-		if (s1[i] > s2[i])
-		{
-			return (s1[i] - s2[i]);
-		}
-		else if (s1[i] < s2[i])
-		{
-			return (s1[i] - s2[i]);
-		}
-	}
+	for (i = 0; s1[i] != '\0'; i++)
+		if (s1[i] != s2[i])
+			return (-1);
 	return (0);
 }
 
