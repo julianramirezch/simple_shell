@@ -70,39 +70,41 @@ void loop_concatenate(stva *var, int len1)
 	int x = 0, y = 0, len2;
 	struct stat st;
 
-	while (var->pathtok[x]) /* la ruta */
+	if (var->pathtok)
 	{
-		len2 = _strlen(var->pathtok[x]); /* len de la ruta */
-		var->concat = malloc(sizeof(char) * (len1 + len2 + 2));
-		while (var->pathtok[x][y])
-			var->concat[y] = var->pathtok[x][y], y++; /*pon0e la ruta */
-		var->concat[y] = '/';
-		y++;
-		len1 = 0;
-		while (var->tok[0][len1])
-			var->concat[y] = var->tok[0][len1], y++, len1++; /* cpone comando */
-		var->concat[y] = '\0';
-		if (stat(var->concat, &st) == 0) /* concatenate*/
+		while (var->pathtok[x]) /* la ruta */
 		{
-			if (access(var->concat, X_OK) == 0)
+			len2 = _strlen(var->pathtok[x]); /* len de la ruta */
+			var->concat = malloc(sizeof(char) * (len1 + len2 + 2));
+			while (var->pathtok[x][y])
+				var->concat[y] = var->pathtok[x][y], y++; /*pon0e la ruta */
+			var->concat[y] = '/';
+			y++;
+			len1 = 0;
+			while (var->tok[0][len1])
+				var->concat[y] = var->tok[0][len1], y++, len1++; /* cpone comando */
+			var->concat[y] = '\0';
+			if (stat(var->concat, &st) == 0) /* concatenate*/
 			{
-				var->status = 0;
-				return;
+				if (access(var->concat, X_OK) == 0)
+				{
+					var->status = 0;
+					return;
+				}
+				else
+				{ commmand_not(var, "not found\n");
+					var->status = 126;
+					return; }
 			}
-			else
-			{ commmand_not(var, "not found\n");
-				var->status = 126;
-				return; }
-		}
 
-		if (var->pathtok[x + 1] == NULL)
-		{
-			commmand_not(var, "not found\n");
-			var->status = 127;
+			if (var->pathtok[x + 1] == NULL)
+			{ commmand_not(var, "not found\n");
+				var->status = 127; }
+			free(var->concat);
+			var->concat = NULL;
+			y = 0, x++;
 		}
-		free(var->concat);
-		var->concat = NULL;
-		y = 0;
-		x++;
 	}
+	else
+		var->pathtok = NULL, var->status = 2;
 }

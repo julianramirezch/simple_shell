@@ -43,10 +43,10 @@ int _fork(stva *var, char *line, pid_t pid)
 		}
 		if (pid == 0)
 		{
-			if (var->concat != NULL)
+			if (var->concat != NULL) /* concatenate ok */
 				execve(var->concat, var->tok, environ);
 
-			if (var->slash != NULL)
+			if (var->slash != NULL) /* /bin/ls or ./ok */
 				execve(var->slash, var->tok, environ);
 		}
 		else
@@ -118,6 +118,5 @@ void execute(stva *var)
 {
 	_getenv(var, "PATH");
 	_path(var);
-
 }
 
