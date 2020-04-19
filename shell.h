@@ -22,6 +22,7 @@ extern char **environ;
  * @argv: arguments value of main function
  * @path: gets the enviroment variable PATH
  * @concat: gets path enviroment and command on one line
+ * @slash: get command from line directly
  * @status: gets the status to be returned
  * @wcount: count how many times run the prompt
  * Description: the var struct is a collection of variables used to
