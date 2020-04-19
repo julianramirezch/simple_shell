@@ -34,6 +34,7 @@ typedef struct var
 	char **argv;
 	char *path;
 	char *concat;
+	char *slash;
 	int status;
 	int wcount;
 } stva;

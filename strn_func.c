@@ -31,8 +31,8 @@ void concatenate(stva *var)
 		{
 			if (access(var->tok[0], X_OK) == 0)
 			{
-				var->concat = var->tok[0];
-				var->status = 0;
+				var->slash = var->tok[0];
+				var->concat = NULL, var->status = 0;
 				return;
 			}
 			else

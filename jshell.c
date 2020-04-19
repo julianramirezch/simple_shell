@@ -22,41 +22,34 @@ void sig_handler(int signum)
 int _fork(stva *var, char *line, pid_t pid)
 {
 	tokensfun(var, line);
-
 	if (var->tok[0] == NULL || _strcmp(var->tok[0], ".") == 0)
 	{
 		free(var->tok);
 		return (0);
 	}
+
 	execute(var);
 	concatenate(var);
-	if (var->status != 0)
-	{
-		free(var->tok);
-		if (line)
-			free(line);
-		free(var->pathtok);
-		free(var->path);
-	}
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("Error:");
-		exit(EXIT_FAILURE);
-	}
-	if (pid == 0)
-	{
 
-
-		if (var->status == 0)
-			execve(var->concat, var->tok, NULL);
+	if (var->status == 0)
+	{
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("Error:");
+			exit(EXIT_FAILURE);
+		}
+		if (pid == 0)
+		{
+			if (var->concat != NULL)
+				execve(var->concat, var->tok, environ);
+			if (var->slash != NULL)
+				execve(var->slash, var->tok, environ);
+		}
+		else
+			wait(&pid);
 	}
-	else
-		wait(&pid);
 	free_st(var);
-	if (line != var->concat && var->concat)
-		free(var->concat);
-
 	return (0);
 }
 /**
@@ -74,7 +67,7 @@ int main(__attribute__((unused))int argc, char **av)
 	stva var;
 
 	var.tok = NULL, var.pathtok = NULL, var.argv = av, var.path = NULL;
-	var.concat = NULL, var.status = 0, var.wcount = 1;
+	var.concat = NULL, var.slash = NULL, var.status = 0, var.wcount = 1;
 
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "$ ", 2);
@@ -90,15 +83,12 @@ int main(__attribute__((unused))int argc, char **av)
 		if (isatty(STDIN_FILENO))
 			write(STDOUT_FILENO, "$ ", 2);
 		var.wcount++;
-
-
 	}
-	if (line == var.concat)
-		free(line);
-	if (line != var.concat)
-		free(line);
+
 	if (isatty(STDIN_FILENO))
 		write(STDOUT_FILENO, "\n", 1);
+
+	free(line);
 	return (var.status);
 }
 
@@ -113,6 +103,7 @@ void free_st(stva *var)
 	free(var->tok);
 	free(var->pathtok);
 	free(var->path);
+	free(var->concat);
 }
 
 /**
