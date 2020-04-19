@@ -18,29 +18,28 @@ void concatenate(stva *var)
 	len1 = _strlen(var->tok[0]);
 
 	if (dir)
-	{
-		closedir(dir);
+	{ closedir(dir);
+		if (!environ)
+			return;
 		commmand_not(var, "Permission denied\n");
 		var->status = 126, var->concat = NULL;
-		return;
-	}
-
+		return; }
 	if (var->tok[0][0] == '.' || var->tok[0][0] == '/') /* ./ls o /ls /bin/ls */
 	{
 		if (stat(var->tok[0], &st) == 0)
 		{
 			if (access(var->tok[0], X_OK) == 0)
 			{
+				if (!environ)
+					return;
 				var->slash = var->tok[0];
 				var->concat = NULL, var->status = 0;
 				return;
 			}
 			else
-			{
-				commmand_not(var, "not found\n");
+			{ commmand_not(var, "not found\n");
 				var->status = 126;
-				return;
-			}
+				return; }
 		}
 		else
 		{ var->concat = NULL, var->status = 127;

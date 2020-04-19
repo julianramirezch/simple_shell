@@ -48,6 +48,8 @@ int _fork(stva *var, char *line, pid_t pid)
 
 			if (var->slash != NULL) /* /bin/ls or ./ok */
 				execve(var->slash, var->tok, environ);
+			if (!environ)
+				exit(EXIT_SUCCESS);
 		}
 		else
 			wait(&pid);
