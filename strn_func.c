@@ -89,8 +89,7 @@ int _strcmp(char *s1, char *s2)
 
 char *_strdup(char *str)
 {
-	int cont;
-	int cont2;
+	int cont = 0, cont2 = 0, cont3 = 0;
 	char *str2;
 
 	if (str == NULL)
@@ -98,12 +97,13 @@ char *_strdup(char *str)
 	for (cont = 0; str[cont]; cont++)
 	{}
 	cont++;
-	str2 = malloc(sizeof(char) * cont);
+	str2 = malloc(sizeof(char) * (cont - 4));
 	if (str2 == NULL)
 		return (NULL);
-	for (cont2 = 0; cont2 < cont; cont2++)
+	for (cont2 = 5; cont2 < cont; cont2++, cont3++)
 	{
-		str2[cont2] = str[cont2];
+		str2[cont3] = str[cont2];
 	}
+
 	return (str2);
 }
