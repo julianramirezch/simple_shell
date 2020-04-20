@@ -20,7 +20,7 @@ Simple shell provides to users an interface to give simple orders to the system.
 ## Instalation (Just Clone)
 *  Clone this repository:
 ```sh
-git clone https://github.com/sandovbarr/printf
+git clone https://github.com/julianramirezch/simple_shell
 ```
 * Inside the repository, compile.
 * Execute:
