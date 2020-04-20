@@ -60,6 +60,13 @@ void env_print(__attribute__((unused))stva *var)
 	int i = 0;
 	int length = 0;
 
+	if (!environ)
+	{
+		var->path = NULL;
+		var->slash = NULL;/* /bin/gcls */
+		var->status = -1;
+		return;
+	}
 	while (environ[i])
 	{
 		length = _strlen(environ[i]);
