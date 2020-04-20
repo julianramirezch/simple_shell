@@ -42,17 +42,19 @@ int _fork(stva *var, char *line, pid_t pid)
 		}
 		if (pid == 0)
 		{
+			if (!environ)
+				exit(EXIT_SUCCESS);
 			if (var->concat != NULL) /* concatenate ok */
 				execve(var->concat, var->tok, NULL);
 			if (var->slash != NULL) /* /bin/ls or ./ok */
 				execve(var->slash, var->tok, NULL);
-			if (!environ)
-				exit(EXIT_SUCCESS);
 		}
 		else
 			wait(&pid);
 	}
 	free_st(var);
+	if (!environ)
+		var->status = 0;
 	return (0);
 }
 /**
