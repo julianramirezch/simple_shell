@@ -30,8 +30,8 @@ int _fork(stva *var, char *line, pid_t pid)
 	}
 
 	execute(var);
-	concatenate(var);
-
+	if (_strcmp("env", var->tok[0]) != 0)
+		concatenate(var);
 	if (var->status == 0)
 	{
 		pid = fork();

@@ -69,6 +69,8 @@ void env_print(stva *var)
 	}
 	while (environ[i])
 	{
+		var->concat = NULL;
+		var->slash = NULL;
 		length = _strlen(environ[i]);
 		write(STDOUT_FILENO, environ[i], length);
 		write(STDOUT_FILENO, "\n", 1);
