@@ -18,8 +18,6 @@ void _getenv(stva *var, char *word)
 	if (!environ)
 	{
 		var->path = NULL;
-		var->slash = NULL;/* /bin/gcls */
-		var->status = -1;
 		return;
 	}
 	while (environ[i])

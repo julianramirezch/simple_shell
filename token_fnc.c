@@ -87,8 +87,7 @@ void loop_concatenate(stva *var, int len1)
 			if (stat(var->concat, &st) == 0) /* concatenate*/
 			{
 				if (access(var->concat, X_OK) == 0)
-				{
-					var->status = 0;
+				{ var->status = 0;
 					return;
 				}
 				else
@@ -96,7 +95,6 @@ void loop_concatenate(stva *var, int len1)
 					var->status = 126;
 					return; }
 			}
-
 			if (var->pathtok[x + 1] == NULL)
 			{ commmand_not(var, "not found\n");
 				var->status = 127; }
@@ -106,5 +104,7 @@ void loop_concatenate(stva *var, int len1)
 		}
 	}
 	else
-		var->pathtok = NULL, var->status = 2;
+	{ commmand_not(var, "not found\n");
+		var->status = 127;
+		return; }
 }

@@ -19,8 +19,6 @@ void concatenate(stva *var)
 
 	if (dir)
 	{ closedir(dir);
-		if (!environ)
-			return;
 		commmand_not(var, "Permission denied\n");
 		var->status = 126, var->concat = NULL;
 		return; }
@@ -30,8 +28,6 @@ void concatenate(stva *var)
 		{
 			if (access(var->tok[0], X_OK) == 0)
 			{
-				if (!environ)
-					return;
 				var->slash = var->tok[0];
 				var->concat = NULL, var->status = 0;
 				return;

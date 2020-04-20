@@ -11,7 +11,7 @@ void _path(stva *var)
 	char *string, *token = NULL;
 	char **finalargs = NULL;
 	int bfc = 0, i = 0, j = 0;
-	/*conoce tamaño y asigna nueva mem*/
+
 	if (var->path) /*if path exists*/
 	{
 		for (j = 0; var->path[j]; j++)
@@ -39,8 +39,7 @@ void _path(stva *var)
 		while (token != NULL)
 		{ finalargs[bfc] = token;
 			token = strtok(NULL, ":");
-			bfc++;
-		}
+			bfc++; }
 		/*retorna el puntero a la lista de palabras*/
 		finalargs[bfc] = NULL;
 		var->pathtok = finalargs;
