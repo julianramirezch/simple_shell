@@ -89,6 +89,8 @@ char *_strdup(char *str)
 
 	if (str == NULL)
 		return (NULL);
+	if (_strcmp(str, "") == 0)
+		return (NULL);
 	for (cont = 0; str[cont]; cont++)
 	{}
 	cont++;
