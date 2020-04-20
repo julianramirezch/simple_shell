@@ -25,7 +25,6 @@ int _fork(stva *var, char *line, pid_t pid)
 
 	if (var->tok[0] == NULL || _strcmp(var->tok[0], ".") == 0)
 	{
-
 		free(var->tok);
 		return (0);
 	}
@@ -44,10 +43,9 @@ int _fork(stva *var, char *line, pid_t pid)
 		if (pid == 0)
 		{
 			if (var->concat != NULL) /* concatenate ok */
-				execve(var->concat, var->tok, environ);
-
+				execve(var->concat, var->tok, NULL);
 			if (var->slash != NULL) /* /bin/ls or ./ok */
-				execve(var->slash, var->tok, environ);
+				execve(var->slash, var->tok, NULL);
 			if (!environ)
 				exit(EXIT_SUCCESS);
 		}
