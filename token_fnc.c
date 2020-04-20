@@ -56,7 +56,7 @@ int free_exit(stva *var, char *line)
 		free(line);
 	}
 
-	exit(0);
+	exit(var->status);
 	return (0);
 }
 

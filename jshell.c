@@ -45,12 +45,15 @@ int _fork(stva *var, char *line, pid_t pid)
 			if (!environ)
 				exit(EXIT_SUCCESS);
 			if (var->concat != NULL) /* concatenate ok */
-				execve(var->concat, var->tok, NULL);
+				execve(var->concat, var->tok, environ);
 			if (var->slash != NULL) /* /bin/ls or ./ok */
-				execve(var->slash, var->tok, NULL);
+				execve(var->slash, var->tok, environ);
 		}
 		else
+		{
 			wait(&pid);
+			var->status = WEXITSTATUS(pid);
+		}
 	}
 	free_st(var);
 	if (!environ)

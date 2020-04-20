@@ -54,7 +54,7 @@ void _path(stva *var)
  * env_print - Print env
  * @var: Structure
  */
-void env_print(__attribute__((unused))stva *var)
+void env_print(stva *var)
 {
 
 	int i = 0;
