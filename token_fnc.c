@@ -12,24 +12,23 @@ void tokensfun(stva *var, char *line)
 	char *string, *token = NULL, **tokens = NULL;
 	int index = 0, copy = 0, len = 0;
 
-	/*conoce tamaño y asigna nueva mem*/
+	/*meet the length of the string*/
 	for (len = 0; line[len]; len++)
 	{}
 	line[len - 1] = '\0';
 	string = malloc(sizeof(char) * (len));
-	/*hace una copia del string de entrada*/
+	/*make a copy of the entry string*/
 	while (line[copy] != '\0')
 		string[copy] = line[copy], copy++;
 	string[copy] = '\0';
-	/*crea el token para saber cuantas palabras son*/
+	/*made the tokens to know how many words are*/
 	token = strtok(string, " \t");
 	while (token != NULL)
 		token = strtok(NULL, "  \t"), index++;
-	/*asigna tamaño a array de palabras / setea variables a 0*/
+	/*malloc size / set variables to 0*/
 	tokens = malloc(sizeof(char *) * (index + 1)); /* copy = 0; */
 	index = 0;
-	/*reasigna los espacios al string de copia*/
-	/*apunta cada palabra a cada posicion del array de palabras*/
+	/*point to each word in each tokens*/
 	token = strtok(line, " \t");
 	while (token != NULL)
 	{
